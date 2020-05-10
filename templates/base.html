@@ -1,0 +1,65 @@
+{% load static staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en" class="uk-background-muted">
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" href="{% static 'img/favicon.ico/favicon.ico' %}" type="image/x-icon">
+
+  <title>Artoolbox</title>
+  <!-- UIkit CSS -->
+  <link rel="stylesheet" href="{% static 'css/uikit.min.css' %}">
+
+  <!-- artoolbox CSS -->
+  <link rel="stylesheet" href="{% static 'css/artoolbox.css' %}">
+
+  <!-- UIkit JS -->
+  <script src="{% static 'js/uikit.min.js' %}"></script>
+  <script src="{% static 'js/uikit-icons.min.js' %}"></script>
+
+  <!-- Vuew JS -->
+  {% if debug %}
+    <script src="{% static 'vue/vue.js' %}"></script>
+  {% else %}
+    <script src="{% static 'vue/vue.min.js' %}"></script>
+  {% endif %}
+  <script src="{% static 'vue/axios.min.js' %}"></script>
+
+  {% block extra_header %}{% endblock extra_header %}
+</head>
+<body>
+<header>
+  <nav class="uk-navbar-container">
+    <div class="uk-container uk-container-expand uk-section-primary">
+      <div uk-navbar>
+        <div class="uk-navbar-left">
+          <a href="{% url 'core:index' %}" class="uk-navbar-item uk-logo">
+            <img src="{% static 'img/logo.svg' %}" width="40" height="40" class="uk-margin-small-right" uk-svg>
+            ARTOOLBOX
+          </a>
+        </div>
+        <div class="uk-navbar-right">
+          <div>
+            <a class="uk-navbar-toggle" uk-search-icon href="javascript:void(0)"></a>
+            <div class="uk-drop" uk-drop="mode: click; pos: left-center; offset: 0">
+              <form class="uk-search uk-search-navbar uk-width-1-1" method="get" action="{% url 'core:search' %}">
+                <input class="uk-search-input" type="search" name="name" placeholder="Search..." autofocus
+                       value="{{ request.GET.name }}">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<div class="uk-section">
+  <div class="uk-container">
+    {% block content %}{% endblock content %}
+  </div>
+</div>
+{% block extra_footer %}{% endblock extra_footer %}
+
+</body>
+</html>

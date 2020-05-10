@@ -8,3 +8,6 @@ venv/
 .venv
 lib/
 lib64/
+media/
+media_files/
+static_files/

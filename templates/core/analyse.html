@@ -1,0 +1,30 @@
+{% load static staticfiles %}
+
+<h4>Dominating colours:</h4>
+<div class="uk-grid  uk-child-width-1-4@s">
+  {% for colour in result %}
+    <div>
+      <div class="uk-flex uk-flex-center uk-flex-middle uk-border-circle"
+           style="background: {{ colour }}; color: #ffffff; width:120px; height: 120px">
+        {{ colour }}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+<h4>Recommended tools for painting:</h4>
+<h3 class="uk-heading-line">
+  <span><img src="{% static 'img/brush.svg' %}" width="30" height="30" class="uk-margin-small-right"
+             uk-svg> Brushes</span>
+</h3>
+<p>
+  Type: bright<br/>
+  Material: natural pony<br/>
+  Sizes: 4-9
+</p>
+<h3 class="uk-heading-line">
+  <span><img src="{% static 'img/palette.svg' %}" width="30" height="30" class="uk-margin-small-right"
+             uk-svg> Paints</span>
+</h3>
+<p>
+  Type: oil paints
+</p>

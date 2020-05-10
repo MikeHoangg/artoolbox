@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static staticfiles %}
+
+{% block content %}
+  <div class="uk-child-width-expand@s" uk-grid id="app">
+    <div class="uk-grid-item-match">
+      <div class="uk-card uk-card-default uk-card-body uk-border-rounded">
+        <h3 class="uk-heading-line uk-text-center">{{ object.name }}</h3>
+        <img src="{{ object.file.url }}" width="500" height="100" alt="preview">
+        <hr class="uk-divider-icon">
+        <h4 class="uk-heading-line"><span><img src="{% static 'img/artist.svg' %}" width="30" height="30"
+                                               class="uk-margin-small-right"
+                                               uk-svg> Artist</span></h4>
+        <p>
+          {{ object.artist|default:_("No information given") }}
+        </p>
+        <h4 class="uk-heading-line"><span><img src="{% static 'img/description.svg' %}" width="30" height="30"
+                                               class="uk-margin-small-right"
+                                               uk-svg> Description</span></h4>
+        <p>
+          {{ object.description|default:_("No information given") }}
+        </p>
+      </div>
+    </div>
+    <div>
+      <h3 class="uk-heading-line uk-text-center"><span>Recommendations for painting</span></h3>
+      <div>
+        <h4>Dominating colours:</h4>
+        <div class="uk-grid  uk-child-width-1-4@s">
+          {% for colour in object.colours %}
+            <div>
+              <div class="uk-flex uk-flex-center uk-flex-middle uk-border-circle"
+                   style="background: {{ colour }}; color: #ffffff; width:120px; height: 120px">
+                {{ colour }}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <h4>Recommended tools for painting:</h4>
+        <h3 class="uk-heading-line"><span><img src="{% static 'img/brush.svg' %}" width="30" height="30"
+                                               class="uk-margin-small-right"
+                                               uk-svg> Brushes</span>
+        </h3>
+        <p>
+          Type: bright<br/>
+          Material: natural pony<br/>
+          Sizes: 4-9
+        </p>
+        <h3 class="uk-heading-line"><span><img src="{% static 'img/palette.svg' %}" width="30" height="30"
+                                               class="uk-margin-small-right"
+                                               uk-svg> Paints</span>
+        </h3>
+        <p>
+          Type: oil paints
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
