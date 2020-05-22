@@ -1,7 +1,7 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.db.models import SET_NULL
-from django.urls import reverse
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
 from apps.artoolbox_auth.models import ArtoolboxUser
@@ -50,7 +50,7 @@ class Image(models.Model):
     user = models.ForeignKey(ArtoolboxUser, verbose_name=_('user'), blank=True, null=True, on_delete=SET_NULL)
 
     def get_absolute_url(self):
-        return reverse('core:image_detail', args=[self.id])
+        return reverse_lazy('core:image_detail', args=[self.id])
 
     def __str__(self):
         return self.name
