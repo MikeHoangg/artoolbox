@@ -1,7 +1,10 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
+from django.db.models import SET_NULL
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+
+from apps.artoolbox_auth.models import ArtoolboxUser
 
 
 class Material(models.Model):
@@ -44,6 +47,7 @@ class Image(models.Model):
     colours = ArrayField(models.CharField(max_length=7), blank=True, db_index=True, verbose_name=_('colours'))
     description = models.TextField(blank=True, db_index=True, verbose_name=_('description'))
     tools = models.ManyToManyField(Tool, db_index=True, verbose_name=_('tools'), blank=True)
+    user = models.ForeignKey(ArtoolboxUser, verbose_name=_('user'), blank=True, null=True, on_delete=SET_NULL)
 
     def get_absolute_url(self):
         return reverse('core:image_detail', args=[self.id])
