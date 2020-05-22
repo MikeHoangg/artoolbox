@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView, ListView, TemplateView, FormView
@@ -39,14 +40,15 @@ class ImageDetail(DetailView):
     template_name = 'core/image_detail.html'
 
 
-class SearchView(ListView):
+class ImageListView(ListView):
     paginate_by = 6
     model = Image
-    template_name = 'core/search.html'
+    template_name = 'core/image_list.html'
+    ordering = 'name'
 
     def get_queryset(self):
-        queryset = super(SearchView, self).get_queryset()
-        name = self.request.GET.get('name', None)
-        if name:
-            return queryset.filter(name__icontains=name)
+        queryset = super(ImageListView, self).get_queryset()
+        search = self.request.GET.get('search', None)
+        if search:
+            return queryset.filter(Q(name__icontains=search) | Q(artist_icontains=search))
         return queryset

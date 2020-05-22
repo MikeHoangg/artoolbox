@@ -48,7 +48,7 @@ def calculate_center(points, n):
 def kmeans(points, k, min_diff):
     clusters = [Cluster([p], p, p.n) for p in random.sample(points, k)]
 
-    while 1:
+    while True:
         plists = [[] for i in range(k)]
 
         for p in points:

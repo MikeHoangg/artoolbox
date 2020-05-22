@@ -10,22 +10,22 @@
         <hr class="uk-divider-icon">
         <h4 class="uk-heading-line"><span><img src="{% static 'img/artist.svg' %}" width="30" height="30"
                                                class="uk-margin-small-right"
-                                               uk-svg> Artist</span></h4>
+                                               uk-svg> {{ _("Artist") }}</span></h4>
         <p>
           {{ object.artist|default:_("No information given") }}
         </p>
         <h4 class="uk-heading-line"><span><img src="{% static 'img/description.svg' %}" width="30" height="30"
                                                class="uk-margin-small-right"
-                                               uk-svg> Description</span></h4>
+                                               uk-svg> {{ _("Description") }}</span></h4>
         <p>
           {{ object.description|default:_("No information given") }}
         </p>
       </div>
     </div>
     <div>
-      <h3 class="uk-heading-line uk-text-center"><span>Recommendations for painting</span></h3>
+      <h3 class="uk-heading-line uk-text-center"><span>{{ _("Recommendations for painting") }}</span></h3>
       <div>
-        <h4>Dominating colours:</h4>
+        <h4>{{ _("Dominating colours") }}:</h4>
         <div class="uk-grid  uk-child-width-1-4@s">
           {% for colour in object.colours %}
             <div>
@@ -36,22 +36,22 @@
             </div>
           {% endfor %}
         </div>
-        <h4>Recommended tools for painting:</h4>
+        <h4>{{ _("Recommended tools for painting") }}:</h4>
         <h3 class="uk-heading-line"><span><img src="{% static 'img/brush.svg' %}" width="30" height="30"
                                                class="uk-margin-small-right"
-                                               uk-svg> Brushes</span>
+                                               uk-svg> {{ _("Brushes") }}</span>
         </h3>
         <p>
-          Type: bright<br/>
-          Material: natural pony<br/>
-          Sizes: 4-9
+          {{ _("Type") }}: bright<br/>
+          {{ _("Material") }}: natural pony<br/>
+          {{ _("Sizes") }}: 4-9
         </p>
         <h3 class="uk-heading-line"><span><img src="{% static 'img/palette.svg' %}" width="30" height="30"
                                                class="uk-margin-small-right"
-                                               uk-svg> Paints</span>
+                                               uk-svg> {{ _("Paints") }}</span>
         </h3>
         <p>
-          Type: oil paints
+          {{ _("Type") }}: oil paints
         </p>
       </div>
     </div>

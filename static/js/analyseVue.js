@@ -40,4 +40,4 @@ let analyseVue = new Vue({
             )
         }
     }
-})
+});
