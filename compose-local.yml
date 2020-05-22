@@ -4,9 +4,14 @@ services:
   web:
     image: "${ARTOOLBOX_IMAGE}"
     command: bash -c "python3 /artoolbox/manage.py migrate --noinput &&
-      python3 /artoolbox/manage.py runserver 0.0.0.0:8000"
+      python3 /artoolbox/manage.py loaddata dumps/*json &&
+      python3 /artoolbox/manage.py runserver ${ARTOOLBOX_HOST}"
     ports:
       - 8008:8000
+    environment:
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_DB: "${POSTGRES_DB}"
     volumes:
       - .:/artoolbox/
     depends_on:
@@ -17,9 +22,9 @@ services:
     ports:
       - 5431:5432
     environment:
-      POSTGRES_PASSWORD: "postgres"
-      POSTGRES_USER: "postgres"
-      POSTGRES_DB: "artoolbox"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_DB: "${POSTGRES_DB}"
 
 volumes:
   artoolbox:
