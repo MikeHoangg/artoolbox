@@ -12,3 +12,4 @@ media/
 media_files/
 static_files/
 settings.py
+dumps/
