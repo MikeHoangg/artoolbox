@@ -1,6 +1,6 @@
+from admin_interface.models import Theme
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import Group
 
-from apps.artoolbox_auth.models import ArtoolboxUser
-
-admin.site.register(ArtoolboxUser, UserAdmin)
+admin.site.unregister(Group)
+admin.site.unregister(Theme)

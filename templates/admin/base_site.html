@@ -1,0 +1,11 @@
+{% extends "admin_interface:admin/base_site.html" %}
+{% load static staticfiles %}
+
+
+{% block branding %}
+  <h1 id="site-name" style="display: flex; align-items: center">
+    <object type="image/svg+xml" data="{% static 'img/logo.svg' %}" width="40" height="40"
+            style="filter: invert(100%); margin-right: 10px"></object>
+    ARTOOLBOX
+  </h1>
+{% endblock %}

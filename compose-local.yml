@@ -4,6 +4,7 @@ services:
   web:
     image: "${ARTOOLBOX_IMAGE}"
     command: bash -c "python3 /artoolbox/manage.py migrate --noinput &&
+      python3 manage.py loaddata admin_interface_theme_uswds.json &&
       python3 /artoolbox/manage.py loaddata dumps/*json &&
       python3 /artoolbox/manage.py runserver ${ARTOOLBOX_HOST}"
     ports:
