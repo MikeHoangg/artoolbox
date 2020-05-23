@@ -24,20 +24,25 @@ class Tool(models.Model):
     CHARCOAL = 6
 
     TYPE_CHOICES = (
-        (PENCIL, 'pencil'),
-        (PEN, 'pen'),
-        (BRUSH, 'brush'),
-        (PAINT, 'paint'),
-        (PASTEL, 'pastel'),
-        (CHARCOAL, 'charcoal'),
+        (PENCIL, _('pencil')),
+        (PEN, _('pen')),
+        (BRUSH, _('brush')),
+        (PAINT, _('paint')),
+        (PASTEL, _('pastel')),
+        (CHARCOAL, _('charcoal')),
     )
 
     name = models.CharField(max_length=64, db_index=True, verbose_name=_('name'))
     tool_type = models.IntegerField(choices=TYPE_CHOICES, db_index=True, verbose_name=_('tool type'))
     materials = models.ManyToManyField(Material, db_index=True, verbose_name=_('materials'), blank=True)
+    description = models.TextField(blank=True, db_index=True, verbose_name=_('description'))
 
     def __str__(self):
         return self.name
+
+    def get_materials(self):
+        print(self.materials.values_list('name'))
+        return ', '.join([material.name for material in self.materials.all()])
 
 
 class Image(models.Model):

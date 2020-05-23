@@ -10,7 +10,7 @@
         <hr class="uk-divider-icon">
         <h4 class="uk-heading-line"><span><img src="{% static 'img/artist.svg' %}" width="30" height="30"
                                                class="uk-margin-small-right"
-                                               uk-svg> {{ _("Artist") }}</span></h4>
+                                               uk-svg> {{ _("Author") }}</span></h4>
         <p>
           {{ object.artist|default:_("No information given") }}
         </p>
@@ -37,22 +37,19 @@
           {% endfor %}
         </div>
         <h4>{{ _("Recommended tools for painting") }}:</h4>
-        <h3 class="uk-heading-line"><span><img src="{% static 'img/brush.svg' %}" width="30" height="30"
-                                               class="uk-margin-small-right"
-                                               uk-svg> {{ _("Brushes") }}</span>
-        </h3>
-        <p>
-          {{ _("Type") }}: bright<br/>
-          {{ _("Material") }}: natural pony<br/>
-          {{ _("Sizes") }}: 4-9
-        </p>
-        <h3 class="uk-heading-line"><span><img src="{% static 'img/palette.svg' %}" width="30" height="30"
-                                               class="uk-margin-small-right"
-                                               uk-svg> {{ _("Paints") }}</span>
-        </h3>
-        <p>
-          {{ _("Type") }}: oil paints
-        </p>
+        {% for tool_type in recommended_tools %}
+          <h3 class="uk-heading-line">
+            <span><img src="{{ tool_type.img }}" width="30" height="30" class="uk-margin-small-right"
+                       uk-svg> {{ tool_type.name|upper }}</span>
+          </h3>
+          {% for tool in tool_type.tools %}
+            <p>
+              <b>{{ tool.name }}</b><br/>
+              {{ _("Materials") }}: {{ tool.get_materials|default:_("No information given") }}<br/>
+              {{ _("Description") }}: {{ tool.description|default:_("No information given") }}
+            </p>
+          {% endfor %}
+        {% endfor %}
       </div>
     </div>
   </div>

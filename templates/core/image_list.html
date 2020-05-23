@@ -40,7 +40,13 @@
           <div
               class="uk-card uk-card-default uk-card-body uk-border-rounded uk-flex uk-flex-column uk-flex-center uk-flex-middle">
             <img src="{{ image.file.url }}" width="200" height="100" alt="preview">
-            <h3>{{ image.name }}</h3>
+            <h3>{{ image.name }}
+              {% if image.artist %}
+                <br/>
+                <small>{{ _("Author") }} {{ image.artist }}</small>
+              {% endif %}
+            </h3>
+
           </div>
         </a>
       {% endfor %}
