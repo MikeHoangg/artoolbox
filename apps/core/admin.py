@@ -36,7 +36,7 @@ class ImageAdmin(admin.ModelAdmin):
         if not change:
             obj.user = request.user
         if 'file' in form.changed_data:
-            obj.colours = list(colours(obj.file.open(), 4))
+            obj.colours = list(colours(obj.file.open()))
         super(ImageAdmin, self).save_model(request, obj, form, change)
 
 

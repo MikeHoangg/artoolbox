@@ -2,7 +2,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.db.models import SET_NULL
 from django.urls import reverse_lazy
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext as _
 
 from apps.artoolbox_auth.models import ArtoolboxUser
 
@@ -41,7 +41,6 @@ class Tool(models.Model):
         return self.name
 
     def get_materials(self):
-        print(self.materials.values_list('name'))
         return ', '.join([material.name for material in self.materials.all()])
 
 

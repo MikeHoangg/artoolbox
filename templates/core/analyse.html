@@ -1,30 +1,31 @@
 {% load static staticfiles %}
 
-<h4>{{ _("Dominating colours") }}:</h4>
-<div class="uk-grid  uk-child-width-1-4@s">
-  {% for colour in result %}
-    <div>
-      <div class="uk-flex uk-flex-center uk-flex-middle uk-border-circle"
-           style="background: {{ colour }}; color: #ffffff; width:120px; height: 120px">
-        {{ colour }}
+{% if colours %}
+  <h4>{{ _("Dominating colours") }}:</h4>
+  <div class="uk-grid  uk-child-width-1-4@s">
+    {% for colour in colours %}
+      <div>
+        <div class="uk-flex uk-flex-center uk-flex-middle uk-border-circle"
+             style="background: {{ colour }}; color: #ffffff; width:120px; height: 120px">
+          {{ colour }}
+        </div>
       </div>
-    </div>
+    {% endfor %}
+  </div>
+  <h4>{{ _("Recommended tools for painting") }}:</h4>
+  {% for tool_type in recommended_tools %}
+    <h3 class="uk-heading-line">
+            <span><img src="{{ tool_type.img }}" width="30" height="30" class="uk-margin-small-right"
+                       uk-svg> {{ tool_type.name|upper }}</span>
+    </h3>
+    {% for tool in tool_type.tools %}
+      <p>
+        <b>{{ tool.name }}</b><br/>
+        {{ _("Materials") }}: {{ tool.get_materials|default:_("No information given") }}<br/>
+        {{ _("Description") }}: {{ tool.description|default:_("No information given") }}
+      </p>
+    {% endfor %}
   {% endfor %}
-</div>
-<h4>{{ _("Recommended tools for painting") }}:</h4>
-<h3 class="uk-heading-line">
-  <span><img src="{% static 'img/brush.svg' %}" width="30" height="30" class="uk-margin-small-right"
-             uk-svg> {{ _("Brushes") }}</span>
-</h3>
-<p>
-  {{ _("Type") }}: bright<br/>
-  {{ _("Material") }}: natural pony<br/>
-  {{ _("Sizes") }}: 4-9
-</p>
-<h3 class="uk-heading-line">
-  <span><img src="{% static 'img/palette.svg' %}" width="30" height="30" class="uk-margin-small-right"
-             uk-svg> {{ _("Paints") }}</span>
-</h3>
-<p>
-  {{ _("Type") }}: oil paints
-</p>
+{% else %}
+  {{ _("Failed to retrieve data") }}
+{% endif %}
