@@ -1,5 +1,5 @@
+import math
 from collections import namedtuple
-from math import sqrt
 import random
 
 from PIL import Image
@@ -46,7 +46,7 @@ def euclidean(p1, p2):
     :param p2: point obj
     :return: float
     """
-    return sqrt(sum([
+    return math.sqrt(sum([
         (p1.coords[i] - p2.coords[i]) ** 2 for i in range(p1.n)
     ]))
 
@@ -103,13 +103,79 @@ def kmeans(points, k, min_diff):
     return clusters
 
 
+def light_or_dark(rgb_colour):
+    """
+    Function for determining whether colour is dark or light
+    :param rgb_colour: tuple, with rgb values
+    :return: bool, true - light, false - dark
+    """
+    [r, g, b] = rgb_colour
+    hsp = math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b))
+    return hsp > 127.5
+
+
+def convert_to_rgb(hex_colour):
+    """
+    Function for converting hex colour to rgb
+    :param hex_colour: str, hex colour
+    :return:  tuple, with rgb values
+    """
+    colour = hex_colour[1:]
+
+    return tuple(int(colour[i:i + 2], 16) for i in (0, 2, 4))
+
+
+def select_by_percentage(values):
+    """
+    Function for selecting value by percentage
+    :param values: dict, with values and percentages
+    :return: value
+    """
+    variate = random.random() * sum(values.values())
+    cumulative = 0.0
+    for item, weight in values.items():
+        cumulative += weight
+        if variate < cumulative:
+            return item
+    return item
+
+
 # TODO add implementation
 def get_tools_by_colours(colours):
     """
     Function for getting tools by analysing colours
     :param colours: list of str, colours
-    :return: ObjectSet of tools
+    :return: QuerySet of tools
     """
-    from apps.core.models import Tool
+    from apps.core.models import Tool, Material
+    ids = []
+    selected_tool_type = select_by_percentage({
+        'graphic_type': 20,
+        'paint_type': 80
+    })
 
-    return Tool.objects.none()
+    if selected_tool_type == 'paint_type':
+        brightness_colours = [light_or_dark(convert_to_rgb(colour)) for colour in colours]
+        dark_count = brightness_colours.count(False)
+        light_count = brightness_colours.count(True)
+
+        ids += Tool.objects.filter(tool_type=Tool.BRUSH).order_by('?').values_list('id', flat=True)[
+               :random.randint(2, 4)]
+        paint_tool = None
+
+        if dark_count > light_count:
+            oil = Material.objects.filter(name='Oil').first()
+            if oil:
+                paint_tool = oil.tool_set.filter(tool_type=Tool.PAINT).order_by('?').first()
+        elif dark_count < light_count:
+            watercolor = Material.objects.filter(name='Watercolor').first()
+            if watercolor:
+                paint_tool = watercolor.tool_set.filter(tool_type=Tool.PAINT).order_by('?').first()
+        if not paint_tool:
+            paint_tool = Tool.objects.filter(tool_type=Tool.PAINT).order_by('?').first()
+
+        ids.append(paint_tool.id)
+    else:
+        ids += Tool.objects.filter(tool_type__in=[Tool.PENCIL, Tool.PEN, Tool.PASTEL, Tool.CHARCOAL]).order_by(
+            '?').values_list('id', flat=True)[:random.randint(2, 4)]
+    return Tool.objects.filter(id__in=ids)
