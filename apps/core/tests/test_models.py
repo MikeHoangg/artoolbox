@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse_lazy
 
-from apps.core.models import Image, Tool, Material
+from apps.core.models import Image, Tool, Material, Toolset
 
 
 class ModelsTestCase(TestCase):
@@ -18,22 +18,30 @@ class ModelsTestCase(TestCase):
             tool_type=Tool.PENCIL
         )
 
+        toolset = Toolset.objects.create(
+            name='test toolset',
+            toolset_type=Toolset.GRAPHIC_ART
+        )
+
         Image.objects.create(
             name='test image',
             artist='test artist',
             colours=['#000000', '#ffffff'],
-            description='test description'
+            description='test description',
+            toolset=toolset
         )
 
     def setUp(self):
         self.image = Image.objects.first()
         self.tool = Tool.objects.first()
+        self.toolset = Toolset.objects.first()
         self.material = Material.objects.first()
         self.tool.materials.add(self.material)
-        self.image.tools.add(self.tool)
+        self.toolset.tools.add(self.tool)
 
     def test_relations(self):
-        self.assertIn(self.tool, self.image.tools.all())
+        self.assertIn(self.tool, self.toolset.tools.all())
+        self.assertIn(self.tool, self.image.toolset.tools.all())
         self.assertIn(self.material, self.tool.materials.all())
 
     def test_get_absolute_url(self):

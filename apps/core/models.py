@@ -44,14 +44,34 @@ class Tool(models.Model):
         return ', '.join([material.name for material in self.materials.all()])
 
 
+class Toolset(models.Model):
+    GRAPHIC_ART = 1
+    PICTORIAL_ART = 2
+    MIXED_ART = 3
+
+    TYPE_CHOICES = (
+        (GRAPHIC_ART, _('graphic art')),
+        (PICTORIAL_ART, _('pictorial art')),
+        (MIXED_ART, _('mixed art')),
+    )
+
+    name = models.CharField(max_length=64, unique=True, db_index=True, verbose_name=_('name'))
+    toolset_type = models.IntegerField(choices=TYPE_CHOICES, db_index=True, verbose_name=_('toolset type'))
+    tools = models.ManyToManyField(Tool, db_index=True, verbose_name=_('tools'), blank=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Image(models.Model):
     name = models.CharField(max_length=64, unique=True, db_index=True, verbose_name=_('name'))
     artist = models.CharField(max_length=64, blank=True, db_index=True, verbose_name=_('artist'))
     file = models.ImageField(db_index=True, verbose_name=_('file'))
     colours = ArrayField(models.CharField(max_length=7), blank=True, db_index=True, verbose_name=_('colours'))
     description = models.TextField(blank=True, db_index=True, verbose_name=_('description'))
-    tools = models.ManyToManyField(Tool, db_index=True, verbose_name=_('tools'), blank=True)
     user = models.ForeignKey(ArtoolboxUser, verbose_name=_('user'), blank=True, null=True, on_delete=SET_NULL)
+    toolset = models.ForeignKey(Toolset, db_index=True, verbose_name=_('toolset'), blank=True, null=True,
+                                on_delete=models.SET_NULL)
 
     def get_absolute_url(self):
         return reverse_lazy('core:image_detail', args=[self.id])

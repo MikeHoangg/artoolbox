@@ -69,10 +69,10 @@ class ImageDetail(DetailView, ToolsSerializerMixin):
 
     def get_context_data(self, **kwargs):
         context = super(ImageDetail, self).get_context_data(**kwargs)
-
-        tools = self.object.tools.all().prefetch_related('materials')
-        context['recommended_tools'] = self.serialize_tools(tools)
-
+        toolset = self.object.toolset
+        if toolset:
+            tools = toolset.tools.all().prefetch_related('materials')
+            context['recommended_tools'] = self.serialize_tools(tools)
         return context
 
 
