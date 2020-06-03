@@ -147,35 +147,29 @@ def get_tools_by_colours(colours):
     :param colours: list of str, colours
     :return: QuerySet of tools
     """
-    from apps.core.models import Tool, Material
-    ids = []
-    selected_tool_type = select_by_percentage({
-        'graphic_type': 20,
-        'paint_type': 80
+    from apps.core.models import Toolset
+
+    selected_toolset_type = select_by_percentage({
+        Toolset.GRAPHIC_ART: 12,
+        Toolset.PICTORIAL_ART: 80,
+        Toolset.MIXED_ART: 8,
     })
 
-    if selected_tool_type == 'paint_type':
+    toolset = None
+    toolset_set = Toolset.objects.filter(toolset_type=selected_toolset_type)
+
+    if selected_toolset_type == Toolset.PICTORIAL_ART:
         brightness_colours = [light_or_dark(convert_to_rgb(colour)) for colour in colours]
         dark_count = brightness_colours.count(False)
         light_count = brightness_colours.count(True)
 
-        ids += Tool.objects.filter(tool_type=Tool.BRUSH).order_by('?').values_list('id', flat=True)[
-               :random.randint(2, 4)]
-        paint_tool = None
-
         if dark_count > light_count:
-            oil = Material.objects.filter(name='Oil').first()
-            if oil:
-                paint_tool = oil.tool_set.filter(tool_type=Tool.PAINT).order_by('?').first()
+            toolset = toolset_set.filter(name__icontains='oil').first()
         elif dark_count < light_count:
-            watercolor = Material.objects.filter(name='Watercolor').first()
-            if watercolor:
-                paint_tool = watercolor.tool_set.filter(tool_type=Tool.PAINT).order_by('?').first()
-        if not paint_tool:
-            paint_tool = Tool.objects.filter(tool_type=Tool.PAINT).order_by('?').first()
-
-        ids.append(paint_tool.id)
+            toolset = toolset_set.filter(name__icontains='watercolor').first()
+        if not toolset:
+            toolset = toolset_set.order_by('?').first()
     else:
-        ids += Tool.objects.filter(tool_type__in=[Tool.PENCIL, Tool.PEN, Tool.PASTEL, Tool.CHARCOAL]).order_by(
-            '?').values_list('id', flat=True)[:random.randint(2, 4)]
-    return Tool.objects.filter(id__in=ids)
+        toolset = toolset_set.order_by('?').first()
+
+    return toolset.tools.all()

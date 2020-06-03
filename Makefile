@@ -24,6 +24,10 @@ run: COMPOSE ?= docker-compose -f compose-local.yml
 run: docker-build
 	$(COMPOSE) up
 
+tensor: COMPOSE ?= docker-compose -f compose-local.yml -f compose-tensor.yml
+tensor: docker-build
+	$(COMPOSE) up
+
 mm: COMPOSE ?= docker-compose -f compose-local.yml
 mm: docker-build
 	$(COMPOSE) run --name $(CI_COMMIT_SHORT_SHA) web \

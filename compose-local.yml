@@ -5,7 +5,6 @@ services:
     image: "${ARTOOLBOX_IMAGE}"
     command: bash -c "python3 /artoolbox/manage.py migrate --noinput &&
       python3 manage.py loaddata admin_interface_theme_uswds.json &&
-      python3 /artoolbox/manage.py loaddata dumps/*json &&
       python3 /artoolbox/manage.py runserver ${ARTOOLBOX_HOST}"
     ports:
       - 8008:8000
@@ -17,7 +16,7 @@ services:
       - .:/artoolbox/
     depends_on:
       - db
-#      - tensorflow
+  #      - tensorflow
 
   db:
     image: postgres:10
@@ -28,14 +27,21 @@ services:
       POSTGRES_USER: "${POSTGRES_USER}"
       POSTGRES_DB: "${POSTGRES_DB}"
 
-#  tensorflow:
-#    image: tensorflow/serving
-#    environment:
-#      MODEL_NAME: "artoolbox"
+  #  tensorflow:
+  #    image: tensorflow/serving
+  #    environment:
+  #      MODEL_NAME: "artoolbox"
+  #    ports:
+  #      - 8501:8501
+  #    volumes:
+  #      - ./apps/core/models/artoolbox/:/models/artoolbox/
+
+#  tensorflow_jupiter:
+#    image: tensorflow/tensorflow:latest-py3-jupyter
 #    ports:
-#      - 8501:8501
+#      - 8888:8888
 #    volumes:
-#      - /tmp/tfserving/serving/tensorflow_serving/servables/tensorflow/testdata/saved_model_half_plus_two_cpu:/models/artoolbox/
+#      - .:/var/tmp
 
 volumes:
   artoolbox:

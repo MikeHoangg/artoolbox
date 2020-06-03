@@ -11,9 +11,9 @@ class AnalyseForm(forms.Form):
 
     def get_analysis_result(self):
         file = self.cleaned_data['file']
-        dominating_colours = colours(file)
+        dominating_colours = sorted(list(colours(file)))
 
-        # recommended_tools = self.get_results_from_utils(dominating_colours)
+        # recommended_tools = self.get_results_from_tensor_flow(dominating_colours)
         recommended_tools = self.get_results_from_utils(dominating_colours)
         return dominating_colours, recommended_tools
 

@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  web:
+    depends_on:
+      - tensorflow
+
+  tensorflow:
+    image: tensorflow/serving
+    environment:
+      MODEL_NAME: "artoolbox"
+    ports:
+      - 8501:8501
+    volumes:
+      - ./apps/core/models/artoolbox/:/models/artoolbox/
+
+  tensorflow_jupiter:
+    image: tensorflow/tensorflow:latest-py3-jupyter
+    ports:
+      - 8888:8888
+    volumes:
+      - .:/var/tmp
+
+volumes:
+  artoolbox:
