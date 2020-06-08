@@ -16,7 +16,6 @@ services:
       - .:/artoolbox/
     depends_on:
       - db
-  #      - tensorflow
 
   db:
     image: postgres:10
@@ -26,22 +25,6 @@ services:
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
       POSTGRES_USER: "${POSTGRES_USER}"
       POSTGRES_DB: "${POSTGRES_DB}"
-
-  #  tensorflow:
-  #    image: tensorflow/serving
-  #    environment:
-  #      MODEL_NAME: "artoolbox"
-  #    ports:
-  #      - 8501:8501
-  #    volumes:
-  #      - ./apps/core/models/artoolbox/:/models/artoolbox/
-
-#  tensorflow_jupiter:
-#    image: tensorflow/tensorflow:latest-py3-jupyter
-#    ports:
-#      - 8888:8888
-#    volumes:
-#      - .:/var/tmp
 
 volumes:
   artoolbox:

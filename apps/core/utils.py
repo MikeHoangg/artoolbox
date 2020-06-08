@@ -140,7 +140,6 @@ def select_by_percentage(values):
     return item
 
 
-# TODO add implementation
 def get_tools_by_colours(colours):
     """
     Function for getting tools by analysing colours
