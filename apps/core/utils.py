@@ -23,7 +23,7 @@ def get_points(img):
     return points
 
 
-def colours(filename, n=4):
+def colours(filename, n=6):
     """
     Function for getting dominating colours from image
     :param filename: str, name of file
