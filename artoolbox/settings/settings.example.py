@@ -1,0 +1,29 @@
+from .base_settings import *
+
+SECRET_KEY = ...
+
+POSTGRES_USER = ...
+POSTGRES_PASSWORD = ...
+POSTGRES_DB = ...
+POSTGRES_HOST = ...
+POSTGRES_PORT = ...
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': POSTGRES_DB,
+        'USER': POSTGRES_USER,
+        'PASSWORD': POSTGRES_PASSWORD,
+        'HOST': POSTGRES_HOST,
+        'PORT': POSTGRES_PORT,
+    }
+}
+TENSORFLOW_HOST = ...
+TENSORFLOW_PORT = ...
+TENSORFLOW_MODEL = ...
+
+TENSORFLOW = {
+    'HOST': TENSORFLOW_HOST,
+    'PORT': POSTGRES_PORT,
+    'MODEL': TENSORFLOW_MODEL
+}
